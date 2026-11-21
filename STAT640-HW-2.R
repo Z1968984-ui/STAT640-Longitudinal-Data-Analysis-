@@ -30,11 +30,41 @@ ggplot(schiz, aes(x = week, y = imps, group = id)) +
   theme_minimal()
 
 # Means across Week by Group
-ggplot(schiz, aes(x = factor(week), y = imps, group = group)) +
-  stat_summary(fun = mean, geom = "line", size = 2) +
-  geom_point(size = 2) +
-  geom_text(stat = "summary", aes(label = ..y..), fun = mean) +
+# ggplot(schiz, aes(x = factor(week), y = imps, group = group)) +
+#   stat_summary(fun = mean, geom = "line", size = 2) +
+#   geom_point(size = 2) +
+#   geom_text(stat = "summary", aes(label = ..y..), fun = mean) +
+#   theme_minimal()
+
+# Part 1(b) - Means across Week by Group and Sex
+ggplot(schiz, aes(
+  x = week,
+  y = imps,
+  color = factor(group, labels = c("Placebo (0)", "Drug (1)")),
+  linetype = factor(sex, labels = c("Female (0)", "Male (1)")),
+  group = interaction(group, sex)
+)) +
+  stat_summary(fun = mean, geom = "line", linewidth = 1.2) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(
+    fun = mean,
+    geom = "text",
+    aes(label = round(after_stat(y), 2)),
+    vjust = -0.8,
+    size = 3.5,
+    show.legend = FALSE
+  ) +
+  scale_x_continuous(breaks = c(0, 1, 3, 6)) +
+  labs(
+    title = "Mean IMPS Score Across Week by Group and Sex",
+    x = "Week",
+    y = "Mean IMPS",
+    color = "Treatment Group",
+    linetype = "Sex"
+  ) +
   theme_minimal()
+
+# END OF PART 1(b).
 
 # Box Plots for IMPS Measures Across Time
 schiz <- schiz %>% arrange(sex, group, week)
