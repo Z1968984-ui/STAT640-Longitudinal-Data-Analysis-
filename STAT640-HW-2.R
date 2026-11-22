@@ -36,6 +36,8 @@ ggplot(schiz, aes(x = week, y = imps, group = id)) +
 #   geom_text(stat = "summary", aes(label = ..y..), fun = mean) +
 #   theme_minimal()
 
+ggsave("plot1a_spaghetti.png", width = 8, height = 5, dpi = 300)
+
 # Part 1(b) - Means across Week by Group and Sex
 ggplot(schiz, aes(
   x = week,
